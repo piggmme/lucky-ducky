@@ -9,73 +9,64 @@
     rank: number;
   };
 
-  let duckList: duckType[] = [{ name: '', id: 1, rank: -1 }];
+  let ducks: duckType[] = [{ name: '', id: 1, rank: 0 }];
   let isStart = false;
   let isReset = false;
-  let raceWidth = 200;
-  let rankingList: duckType[] = [];
+  let rankings: duckType[] = [];
 
   const resetRace = () => {
-    duckList = duckList.map((duck) => ({
+    ducks = ducks.map((duck) => ({
       ...duck,
-      rank: -1
+      rank: 0
     }));
-    rankingList = [];
+    rankings = [];
     isReset = true;
     isStart = false;
   };
 
-  onMount(resetRace);
-</script>
+  const setDuckRanking = (curDuck: duckType) => () => {
+    const rankedDucks = ducks.map((duck) => {
+      if (curDuck.id === duck.id) {
+        const updatedDuck = {
+          ...duck,
+          rank: rankings.length + 1
+        };
+        rankings.push(updatedDuck);
+        return updatedDuck;
+      }
+      return duck;
+    });
+    ducks = rankedDucks;
+  };
 
-<button
-  on:click={() => {
-    const lastDuck = duckList[duckList.length - 1];
-    duckList = [...duckList, { name: '', id: lastDuck.id + 1, rank: -1 }];
+  const addDuck = () => {
+    const lastDuck = ducks.at(-1);
+    ducks = [...ducks, { name: '', id: lastDuck ? lastDuck.id + 1 : 1, rank: 0 }];
     resetRace();
-  }}
-  type="button">말 추가하기</button
->
-<button
-  on:click={() => {
+  };
+
+  const startRace = () => {
     resetRace();
     const timer = setTimeout(() => {
       isStart = true;
       clearTimeout(timer);
     }, 300);
-  }}
-  type="button">시작하기</button
->
+  };
+
+  onMount(resetRace);
+</script>
+
+<button on:click={addDuck} type="button">말 추가하기</button>
+<button on:click={startRace} type="button">시작하기</button>
 <button on:click={resetRace} type="button">리셋하기</button>
 
-<!-- 말 sprite css 로 바꾸기  -->
-{#each duckList as duck (duck.id)}
-  <div class="flex items-center">
+{#each ducks as duck (duck.id)}
+  <div>
     <div>{duck.id}번 말</div>
-    <div style={`width: ${raceWidth + 100}px`}>
-      <Duck
-        {raceWidth}
-        setDuckInfo={() => {
-          duckList = duckList.map((newDuck) => {
-            if (duck.id === newDuck.id) {
-              const updatedDuck = {
-                ...newDuck,
-                rank: rankingList.length + 1
-              };
-              rankingList.push(updatedDuck);
-              return updatedDuck;
-            }
-            return newDuck;
-          });
-        }}
-        initReset={() => {
-          isReset = false;
-        }}
-        {isStart}
-        {isReset}
-      />
+    <div>
+      <Duck totalDistance={200} setDuckRanking={setDuckRanking(duck)} bind:isStart bind:isReset />
     </div>
 
-    <RankText rank={duck.rank} lastLank={duckList.length} />
+    <RankText rank={duck.rank} lastLank={ducks.length} />
   </div>
 {/each}

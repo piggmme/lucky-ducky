@@ -1,8 +1,5 @@
 <script lang="ts">
-  // import { getRandomArbitrary } from 'src/utils/random';
-  const getRandomArbitrary = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
-  };
+  import { getRandomArbitrary } from '@/utils/random';
   // sprite image animation
   // https://svelte.dev/repl/2594c50ed8f94798898e11416951babc?version=3.44.2
 
@@ -10,79 +7,88 @@
   export let size = 100;
   export let isStart: boolean = false;
   export let isReset: boolean = false;
-  export let initReset = () => {};
-  export let style: string = '';
-  export let raceWidth = 1000;
-  export let setDuckInfo = () => {};
+  export let totalDistance = 1000;
+  export let setDuckRanking = () => {};
 
-  let isRunning = false;
-  let raceX = 0;
-
-  let x = 0;
-  let y = 0;
-  const rows = 4;
-  const cols = 3;
-  const src = '/imgs/race_sprite.png';
+  /** 달리는 애니메이션 */
+  const animation = {
+    x: 0,
+    y: 0,
+    rows: 4,
+    cols: 3,
+    size,
+    src: '/imgs/race_sprite.png'
+  };
   let timer: NodeJS.Timer;
 
+  const runAnimation = () => {
+    if (animation.x === 2 && animation.y === 2) {
+      animation.x = 0;
+      animation.y = 0;
+      return;
+    }
+    if ((animation.x + 1) % 4 === 0) {
+      animation.x = 0;
+      animation.y += 1;
+      return;
+    }
+    animation.x += 1;
+  };
+
+  /** 경주 진행 관리 */
+  let isRunning = false;
+  let distanceX = 0;
+
   $: if (isReset) {
-    raceX = 0;
+    distanceX = 0;
+    isStart = false;
+    isRunning = false;
   }
 
   $: if (isStart) {
     if (timer) clearInterval(timer);
-    if (raceX < raceWidth) raceX += getRandomArbitrary(50, 100);
+    if (distanceX < totalDistance) distanceX += getRandomArbitrary(50, 100);
 
-    timer = setInterval(() => {
-      if (x === 2 && y === 2) {
-        x = 0;
-        y = 0;
-        return;
-      }
-      if ((x + 1) % 4 === 0) {
-        x = 0;
-        y += 1;
-        return;
-      }
-      x += 1;
-    }, speed);
+    timer = setInterval(runAnimation, speed);
 
     isRunning = true;
     isStart = false;
-    initReset();
+    isReset = false;
   }
 
   $: if (!isRunning) {
     if (timer) clearInterval(timer);
   }
+
+  $: isRaceEnd = distanceX >= totalDistance;
 </script>
 
 <div
   aria-hidden="true"
   style={`
-      width: ${size}px; 
-      height: ${size}px; 
-      background-size: calc(100% * ${rows}) calc(100% * ${cols});
-      background-position: ${x * size * -1}px ${y * size * -1}px;
+      width: ${animation.size}px; 
+      height: ${animation.size}px; 
+      background-size: calc(100% * ${animation.rows}) calc(100% * ${animation.cols});
+      background-position: ${animation.x * animation.size * -1}px ${
+    animation.y * animation.size * -1
+  }px;
       overflow: hidden;
-      background-image: url(${src});
+      background-image: url(${animation.src});
     
       ${isReset ? '' : `transition: transform ease-in-out ${getRandomArbitrary(0.8, 1.5)}s`};
-      transform: translateX(${raceX < raceWidth ? raceX : raceWidth}px);
-    
-      ${style}
+      transform: translateX(${!isRaceEnd ? distanceX : totalDistance}px);
     `}
   on:transitionend={() => {
     if (!isRunning) return;
 
     /** 결승선 도달 */
-    if (raceX >= raceWidth) {
+    if (isRaceEnd) {
       isRunning = false;
-      setDuckInfo();
+      setDuckRanking();
       return;
     }
 
-    raceX += getRandomArbitrary(50, 100);
-    if (raceX > raceWidth) raceX = raceWidth;
+    distanceX += getRandomArbitrary(50, 100);
+    if (isRaceEnd) distanceX = totalDistance;
   }}
 />
