@@ -3,11 +3,10 @@
   // sprite image animation
   // https://svelte.dev/repl/2594c50ed8f94798898e11416951babc?version=3.44.2
 
-  export let speed: number = 80;
   export let size = 100;
   export let isStart: boolean = false;
   export let isReset: boolean = false;
-  export let totalDistance = 1000;
+  export let totalDistance = 2000;
   export let setDuckRanking = () => {};
 
   /** 달리는 애니메이션 */
@@ -17,6 +16,7 @@
     rows: 4,
     cols: 3,
     size,
+    speed: 50,
     src: '/imgs/race_sprite.png'
   };
   let timer: NodeJS.Timer;
@@ -37,7 +37,7 @@
 
   /** 경주 진행 관리 */
   let isRunning = false;
-  let distanceX = 0;
+  export let distanceX = 0;
 
   $: if (isReset) {
     distanceX = 0;
@@ -49,7 +49,7 @@
     if (timer) clearInterval(timer);
     if (distanceX < totalDistance) distanceX += getRandomArbitrary(50, 100);
 
-    timer = setInterval(runAnimation, speed);
+    timer = setInterval(runAnimation, animation.speed);
 
     isRunning = true;
     isStart = false;
@@ -67,15 +67,14 @@
   aria-hidden="true"
   style={`
       width: ${animation.size}px; 
-      height: ${animation.size}px; 
+      height: ${animation.size}px;
       background-size: calc(100% * ${animation.rows}) calc(100% * ${animation.cols});
       background-position: ${animation.x * animation.size * -1}px ${
     animation.y * animation.size * -1
   }px;
       overflow: hidden;
       background-image: url(${animation.src});
-    
-      ${isReset ? '' : `transition: transform ease-in-out ${getRandomArbitrary(0.8, 1.5)}s`};
+      ${isReset ? '' : `transition: transform ease-in-out ${getRandomArbitrary(0.5, 1)}s`};
       transform: translateX(${!isRaceEnd ? distanceX : totalDistance}px);
     `}
   on:transitionend={() => {
@@ -88,7 +87,7 @@
       return;
     }
 
-    distanceX += getRandomArbitrary(50, 100);
+    distanceX += getRandomArbitrary(100, 300);
     if (isRaceEnd) distanceX = totalDistance;
   }}
 />
