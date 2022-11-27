@@ -34,7 +34,7 @@
     duckList = [...duckList, { name: '', id: lastDuck.id + 1, rank: -1 }];
     resetRace();
   }}
-  type="button">말 추가하기</button
+  type="button">오리 추가하기</button
 >
 <button
   on:click={() => {
