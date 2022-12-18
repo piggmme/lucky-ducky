@@ -1,81 +1,107 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Duck from './parts/Duck.svelte';
-  import RankText from './parts/RankText.svelte';
+  import RankResult from './parts/RankResult.svelte';
+  import type { duckType } from './type';
 
-  type duckType = {
-    name: string;
-    id: number;
-    rank: number;
-  };
-
-  let duckList: duckType[] = [{ name: '', id: 1, rank: -1 }];
+  let ducks: duckType[] = [{ name: '', id: 1, rank: 0, distanceX: 0 }];
   let isStart = false;
   let isReset = false;
-  let raceWidth = 200;
-  let rankingList: duckType[] = [];
+  let rankings: duckType[] = [];
+  let race: HTMLDivElement;
 
   const resetRace = () => {
-    duckList = duckList.map((duck) => ({
+    ducks = ducks.map((duck) => ({
       ...duck,
-      rank: -1
+      rank: 0,
+      distanceX: 0
     }));
-    rankingList = [];
+    rankings = [];
     isReset = true;
     isStart = false;
   };
 
-  onMount(resetRace);
-</script>
+  const setDuckRanking = (curDuck: duckType) => () => {
+    const rankedDucks = ducks.map((duck) => {
+      if (curDuck.id === duck.id) {
+        const updatedDuck = {
+          ...duck,
+          rank: rankings.length + 1
+        };
+        rankings.push(updatedDuck);
+        return updatedDuck;
+      }
+      return duck;
+    });
+    ducks = rankedDucks;
+  };
 
-<button
-  on:click={() => {
-    const lastDuck = duckList[duckList.length - 1];
-    duckList = [...duckList, { name: '', id: lastDuck.id + 1, rank: -1 }];
+  const addDuck = () => {
+    const lastDuck = ducks.at(-1);
+    ducks = [...ducks, { name: '', id: lastDuck ? lastDuck.id + 1 : 1, rank: 0, distanceX: 0 }];
     resetRace();
-  }}
-  type="button">오리 추가하기</button
->
-<button
-  on:click={() => {
+  };
+
+  const startRace = () => {
     resetRace();
     const timer = setTimeout(() => {
       isStart = true;
       clearTimeout(timer);
     }, 300);
-  }}
-  type="button">시작하기</button
->
+  };
+
+  onMount(resetRace);
+
+  $: {
+    const maxDistanceX = ducks.reduce(
+      (maxDistanceX, { distanceX }) => (maxDistanceX < distanceX ? distanceX : maxDistanceX),
+      0
+    );
+    race?.scrollTo({ left: maxDistanceX - window.innerWidth + 200, behavior: 'smooth' });
+  }
+</script>
+
+<button on:click={addDuck} type="button">말 추가하기</button>
+<button on:click={startRace} type="button">시작하기</button>
 <button on:click={resetRace} type="button">리셋하기</button>
 
-<!-- 말 sprite css 로 바꾸기  -->
-{#each duckList as duck (duck.id)}
-  <div class="flex items-center">
-    <div>{duck.id}번 말</div>
-    <div style={`width: ${raceWidth + 100}px`}>
+<div bind:this={race} class="race">
+  {#each ducks as duck (duck.id)}
+    <div class="race-field">
+      <div>{duck.id}번 말</div>
       <Duck
-        {raceWidth}
-        setDuckInfo={() => {
-          duckList = duckList.map((newDuck) => {
-            if (duck.id === newDuck.id) {
-              const updatedDuck = {
-                ...newDuck,
-                rank: rankingList.length + 1
-              };
-              rankingList.push(updatedDuck);
-              return updatedDuck;
-            }
-            return newDuck;
-          });
-        }}
-        initReset={() => {
-          isReset = false;
-        }}
-        {isStart}
-        {isReset}
+        setDuckRanking={setDuckRanking(duck)}
+        bind:isStart
+        bind:isReset
+        bind:distanceX={duck.distanceX}
       />
+      <RankResult rank={duck.rank} lastLank={ducks.length} />
+      <div class="race-goal" />
     </div>
+  {/each}
+</div>
 
-    <RankText rank={duck.rank} lastLank={duckList.length} />
-  </div>
-{/each}
+<style lang="scss">
+  .race {
+    overflow-y: scroll;
+    width: 100vw;
+
+    &-field {
+      display: flex;
+      position: relative;
+      justify-content: start;
+      align-items: center;
+      background-color: azure;
+      width: 2200px;
+    }
+
+    &-goal {
+      position: absolute;
+      top: 0;
+      right: 150px;
+      width: 1px;
+      height: 100%;
+      background-color: black;
+    }
+  }
+</style>
