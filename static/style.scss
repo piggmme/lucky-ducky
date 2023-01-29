@@ -151,3 +151,10 @@
 :global(#__next, #root) {
   isolation: isolate;
 }
+:global(button) {
+  font: inherit;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+}
