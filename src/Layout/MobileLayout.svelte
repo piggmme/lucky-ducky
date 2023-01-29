@@ -2,6 +2,7 @@
   import Nav from './Nav/Nav.svelte';
 
   export let isNav = true;
+  export let isFooter = true;
 </script>
 
 <div class="container">
@@ -12,6 +13,17 @@
     <main class="main" class:isNav>
       <slot />
     </main>
+
+    <!-- TODO. footer 스타일링 -->
+    <!-- {#if isFooter}
+      <footer>
+        <p>Contact Us</p>
+        <p>문의</p>
+        <p>제작</p>
+        <p>Instagram</p>
+        <p>Youtube</p>
+      </footer>
+    {/if} -->
   </div>
 </div>
 
@@ -34,4 +46,12 @@
       margin-top: 50px;
     }
   }
+
+  /* footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    max-width: 600px;
+    background-color: #cecece;
+  } */
 </style>
