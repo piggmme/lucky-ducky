@@ -32,6 +32,7 @@
     position: fixed;
     top: 0;
     width: 100%;
+    max-width: 600px;
     background-color: #fff;
     z-index: 100;
     display: flex;
