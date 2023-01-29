@@ -1,8 +1,13 @@
 <script lang="ts">
   import ItemCard from '@/components/main/ItemCard.svelte';
+  import MobileLayout from '@/Layout/MobileLayout.svelte';
   const games = [
     { title: '오리 경주', url: '/race', thumbnail: 'thumbnail_race.svg' },
-    { title: '오리 돌리기', url: '/spinDuck', thumbnail: 'thumbnail_spin.svg' },
+    {
+      title: '오리 돌리기',
+      url: '/spin-duck',
+      thumbnail: 'thumbnail_spin.svg'
+    },
     {
       title: '포춘쿠키',
       url: '/fortuneCookie',
@@ -16,33 +21,26 @@
   ];
 </script>
 
-<header>
-  <h1>게임 선택하기</h1>
-</header>
-<main>
-  <section>
-    <ul>
-      {#each games as game}
-        <li>
-          <ItemCard
-            title={game.title}
-            url={game.url}
-            thumbnail={game.thumbnail}
-          />
-        </li>
-      {/each}
-    </ul>
-  </section>
-</main>
-
-<!-- TODO: footer 레이아웃 분리 -->
-<footer>
-  <p>Contact Us</p>
-  <p>문의</p>
-  <p>제작</p>
-  <p>Instagram</p>
-  <p>Youtube</p>
-</footer>
+<MobileLayout isNav={false}>
+  <header>
+    <h1>게임 선택하기</h1>
+  </header>
+  <main>
+    <section>
+      <ul>
+        {#each games as game}
+          <li>
+            <ItemCard
+              title={game.title}
+              url={game.url}
+              thumbnail={game.thumbnail}
+            />
+          </li>
+        {/each}
+      </ul>
+    </section>
+  </main>
+</MobileLayout>
 
 <style lang="scss">
   header {
@@ -61,11 +59,5 @@
     gap: 20px;
     justify-content: center;
     list-style: none;
-  }
-  footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: #cecece;
   }
 </style>
