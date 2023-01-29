@@ -46,23 +46,25 @@
     padding: 112px 40px 0px;
   }
   .ducky {
-    position: relative;
-    top: -55vh;
+    position: fixed;
+    top: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
     width: 133px;
-    padding-top: 60px;
-    margin: 0 auto;
   }
 
   .button {
+    position: fixed;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+
     display: block;
     color: black;
     text-decoration: none;
     text-align: center;
-    position: relative;
-    top: -55vh;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 65px;
+
+    max-width: 500px;
     width: 80%;
     border: 3.5px solid black;
     border-radius: 20px;
