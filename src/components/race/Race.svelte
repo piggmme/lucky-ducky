@@ -61,8 +61,9 @@
         maxDistanceX < distanceX ? distanceX : maxDistanceX,
       0
     );
+    const viewWidth = window.innerWidth > 600 ? 600 : window.innerWidth;
     race?.scrollTo({
-      left: maxDistanceX - window.innerWidth + 250,
+      left: maxDistanceX - viewWidth + 250,
       behavior: 'smooth'
     });
   }
