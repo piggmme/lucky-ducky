@@ -72,6 +72,7 @@
     background-color: #fff;
     font-weight: 400;
     font-size: 32px;
+    letter-spacing: 0.22em;
     box-shadow: 0px 10px black;
     cursor: pointer;
   }
