@@ -1,11 +1,19 @@
 <script lang="ts">
+  import Nav from './Nav/Nav.svelte';
+
+  export let isNav = true;
 </script>
 
-<main class="container">
+<div class="container">
   <div class="view">
-    <slot />
+    {#if isNav}
+      <Nav />
+    {/if}
+    <main class="main" class:isNav>
+      <slot />
+    </main>
   </div>
-</main>
+</div>
 
 <style lang="scss">
   .container {
@@ -19,5 +27,11 @@
     background-color: #fff;
     margin: 0 auto;
     overflow-x: hidden;
+  }
+
+  .main {
+    &.isNav {
+      margin-top: 50px;
+    }
   }
 </style>
