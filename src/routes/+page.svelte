@@ -3,7 +3,7 @@
   import MobileLayout from '@/Layout/MobileLayout.svelte';
 </script>
 
-<MobileLayout isNav={false}>
+<MobileLayout isNav={false} isFooter={false}>
   <A11yhidden as="h1">럭키덕희 - 당신의 행운을 믿으세요!</A11yhidden>
 
   <div class="container">
@@ -23,7 +23,7 @@
       aria-hidden="true"
     />
 
-    <a href="/race" class="button" type="button">START</a>
+    <a href="/main" class="button" type="button">START</a>
   </div>
 </MobileLayout>
 
