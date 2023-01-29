@@ -18,5 +18,6 @@
     min-height: 100vh;
     background-color: #fff;
     margin: 0 auto;
+    overflow-x: hidden;
   }
 </style>
