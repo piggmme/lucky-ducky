@@ -38,7 +38,10 @@
 
   const addDuck = () => {
     const lastDuck = ducks.at(-1);
-    ducks = [...ducks, { name: '', id: lastDuck ? lastDuck.id + 1 : 1, rank: 0, distanceX: 0 }];
+    ducks = [
+      ...ducks,
+      { name: '', id: lastDuck ? lastDuck.id + 1 : 1, rank: 0, distanceX: 0 }
+    ];
     resetRace();
   };
 
@@ -54,10 +57,15 @@
 
   $: {
     const maxDistanceX = ducks.reduce(
-      (maxDistanceX, { distanceX }) => (maxDistanceX < distanceX ? distanceX : maxDistanceX),
+      (maxDistanceX, { distanceX }) =>
+        maxDistanceX < distanceX ? distanceX : maxDistanceX,
       0
     );
-    race?.scrollTo({ left: maxDistanceX - window.innerWidth + 200, behavior: 'smooth' });
+    const viewWidth = window.innerWidth > 600 ? 600 : window.innerWidth;
+    race?.scrollTo({
+      left: maxDistanceX - viewWidth + 250,
+      behavior: 'smooth'
+    });
   }
 </script>
 
@@ -84,7 +92,7 @@
 <style lang="scss">
   .race {
     overflow-y: scroll;
-    width: 100vw;
+    width: 100%;
 
     &-field {
       display: flex;
