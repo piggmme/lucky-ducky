@@ -1,1 +1,11 @@
-<h1>로또</h1>
+<script lang="ts">
+  import GameName from '@/components/common/GameName.svelte';
+  import MobileLayout from '@/Layout/MobileLayout.svelte';
+</script>
+
+<MobileLayout>
+  <GameName>로또</GameName>
+</MobileLayout>
+
+<style lang="scss">
+</style>
