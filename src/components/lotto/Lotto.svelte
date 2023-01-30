@@ -14,7 +14,21 @@
 <main>
   <ul>
     {#each selectedNumbers as number}
-      <li><span>{number}</span></li>
+      <li>
+        <span
+          class={`lotto-ball lotto-ball-${
+            number <= 10
+              ? 'yellow'
+              : number <= 20
+              ? 'blue'
+              : number <= 30
+              ? 'red'
+              : number <= 40
+              ? 'gray'
+              : 'green'
+          }`}>{number}</span
+        >
+      </li>
     {/each}
   </ul>
 
@@ -27,5 +41,29 @@
     padding: 1em;
     max-width: 240px;
     margin: 0 auto;
+  }
+  ul {
+    display: flex;
+  }
+  .lotto-ball {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+  }
+  .lotto-ball-yellow {
+    background-color: yellow;
+  }
+  .lotto-ball-blue {
+    background-color: blue;
+  }
+  .lotto-ball-red {
+    background-color: red;
+  }
+  .lotto-ball-gray {
+    background-color: gray;
+  }
+  .lotto-ball-green {
+    background-color: green;
   }
 </style>
