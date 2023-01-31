@@ -3,16 +3,18 @@
 </script>
 
 <nav class="nav">
-  <div class="logo">
-    <img
-      width="17px"
-      height="17px"
-      src="/imgs/logo2.svg"
-      alt="럭키덕희"
-      aria-hidden="true"
-    />
-    <h1>럭키덕희</h1>
-  </div>
+  <a href="/">
+    <div class="logo">
+      <img
+        width="17px"
+        height="17px"
+        src="/imgs/logo2.svg"
+        alt="럭키덕희"
+        aria-hidden="true"
+      />
+      <h1>럭키덕희</h1>
+    </div>
+  </a>
 
   <button>
     <A11yhidden>메뉴</A11yhidden>
