@@ -7,7 +7,9 @@
 
   const fortuneCount = fortunePhrases.length;
   let fortunePhrase = '';
-  const getFortune = () => {};
+  const getFortune = () => {
+    fortunePhrase = fortunePhrases[getRandomNumber(0, fortuneCount - 1)];
+  };
 </script>
 
 <MobileLayout>
