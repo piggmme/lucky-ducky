@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { browser } from '$app/environment';
   import Duck from './parts/Duck.svelte';
   import RankResult from './parts/RankResult.svelte';
   import type { duckType } from './type';
@@ -61,7 +62,11 @@
         maxDistanceX < distanceX ? distanceX : maxDistanceX,
       0
     );
-    const viewWidth = window.innerWidth > 600 ? 600 : window.innerWidth;
+    const viewWidth = browser
+      ? window.innerWidth > 600
+        ? 600
+        : window.innerWidth
+      : 600;
     race?.scrollTo({
       left: maxDistanceX - viewWidth + 250,
       behavior: 'smooth'
