@@ -132,7 +132,9 @@
   margin: 0;
 }
 :global(body, html) {
+  margin: 0;
   height: 100%;
+  overflow: hidden;
 }
 :global(body) {
   -webkit-font-smoothing: antialiased;
