@@ -74,14 +74,28 @@
   }
 </script>
 
-<button on:click={addDuck} type="button">말 추가하기</button>
-<button on:click={startRace} type="button">시작하기</button>
-<button on:click={resetRace} type="button">리셋하기</button>
+<div class="header">
+  <img
+    src="/imgs/race/race-background.png"
+    alt="오리 경주 배경"
+    aria-hidden="true"
+  />
+  <div class="button-wrapper">
+    <button class="duck-add" on:click={addDuck} type="button"
+      ><img width="20" src="/imgs/race/add.svg" alt="추가" aria-hidden="true" />
+      오리 추가</button
+    >
+    <div class="start-reset-wrapper">
+      <button class="start" on:click={startRace} type="button">START</button>
+      <button class="reset" on:click={resetRace} type="button">RESET</button>
+    </div>
+  </div>
+</div>
 
 <div bind:this={race} class="race">
   {#each ducks as duck (duck.id)}
     <div class="race-field">
-      <div>{duck.id}번 말</div>
+      <div class="ducky-number">{duck.id}번 덕희</div>
       <Duck
         setDuckRanking={setDuckRanking(duck)}
         bind:isStart
@@ -95,17 +109,69 @@
 </div>
 
 <style lang="scss">
-  .race {
-    overflow-y: scroll;
+  .header {
+    position: relative;
+  }
+  .button-wrapper {
+    position: absolute;
     width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    .start-reset-wrapper {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 30%;
+      right: 50%;
+      transform: translateX(50%);
+    }
+    .start {
+      background-color: #f6ce55;
+      border: 1.2px solid #000;
+      padding: 15px 77px;
+      border-radius: 7px;
+      font-size: 18px;
+      letter-spacing: 0.38em;
+    }
+
+    .reset {
+      color: #fff;
+      opacity: 0.6;
+      padding-top: 7px;
+    }
+
+    .duck-add {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      top: 5%;
+      right: 5%;
+      background-color: #fff;
+      border: 1.2px solid #000;
+      border-radius: 5px;
+      padding: 9px 14px;
+    }
+  }
+  .race {
+    padding-top: 30px;
+    overflow-x: scroll;
+    overflow-y: visible;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-60px);
 
     &-field {
       display: flex;
+      align-items: flex-end;
       position: relative;
       justify-content: start;
       align-items: center;
-      background-color: azure;
       width: 2200px;
+      height: 63px;
     }
 
     &-goal {
@@ -116,5 +182,14 @@
       height: 100%;
       background-color: black;
     }
+  }
+
+  .ducky-number {
+    background-color: #16701b;
+    padding: 7px 14px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    color: #fff;
+    margin: 60px 10px 0px;
   }
 </style>
