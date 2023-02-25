@@ -1,36 +1,28 @@
 <script lang="ts">
   import { getRandomArbitrary } from '@/utils/random';
-
   type SpinDuckState = 'before' | 'spinning' | 'end';
-
   let state: SpinDuckState = 'before';
   let isSpin = false;
   let startDeg = 0;
   let endDeg = getRandomArbitrary(300, 1000);
-
   $: if (state === 'end') {
     setTimeout(() => {
       if (state === 'end') state = 'before';
     }, 1000);
   }
-
   const getUnder360Deg = (deg: number) => deg % 360;
-
   const spinDuck = () => {
     isSpin = true;
     state = 'spinning';
   };
-
   const handleFinishSpin = (
     e: AnimationEvent & {
       currentTarget: EventTarget & HTMLElement;
     }
   ) => {
     e.currentTarget.style.transform = `rotate(${endDeg}deg)`;
-
     startDeg = getUnder360Deg(endDeg);
     endDeg = getRandomArbitrary(360, 1000);
-
     isSpin = false;
     state = 'end';
   };
@@ -69,7 +61,6 @@
   .spin {
     animation: rotation 1s ease-in-out forwards;
   }
-
   @keyframes rotation {
     from {
       transform: rotate(var(--start-deg));
