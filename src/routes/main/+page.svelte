@@ -21,7 +21,7 @@
   ];
 </script>
 
-<MobileLayout isNav={false}>
+<MobileLayout>
   <header>
     <h1>게임 선택하기</h1>
   </header>

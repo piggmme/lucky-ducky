@@ -2,7 +2,7 @@
   import Nav from './Nav/Nav.svelte';
 
   export let isNav = true;
-  export let isFooter = true;
+  export let isFooter = false;
 </script>
 
 <div class="container">
@@ -35,23 +35,26 @@
   }
   .view {
     max-width: 600px;
-    min-height: 100vh;
+    height: 100%;
     background-color: #fff;
     margin: 0 auto;
-    overflow-x: hidden;
   }
 
   .main {
-    &.isNav {
-      margin-top: 50px;
-    }
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
   }
 
-  /* footer {
+  .main.isNav {
+    height: calc(100% - 50px);
+  }
+
+  footer {
     position: relative;
     bottom: 0;
     width: 100%;
-    max-width: 600px;
-    background-color: #cecece;
-  } */
+    background-color: #e9e9e9;
+    color: #737373;
+  }
 </style>

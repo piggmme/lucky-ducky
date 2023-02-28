@@ -5,9 +5,7 @@
 </script>
 
 <MobileLayout>
-  <div class="">
-    <GameName>오리 경주</GameName>
-  </div>
+  <GameName>오리 경주</GameName>
   <Race />
 </MobileLayout>
 
