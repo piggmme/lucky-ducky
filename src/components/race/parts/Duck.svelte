@@ -5,7 +5,7 @@
 
   export let isStart: boolean = false;
   export let isReset: boolean = false;
-  export let totalDistance = 2000;
+  export let totalDistance = 2050;
   export let setDuckRanking = () => {};
 
   /** 경주 진행 관리 */
