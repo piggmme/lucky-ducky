@@ -3,7 +3,7 @@
 </script>
 
 <nav class="nav">
-  <a href="/">
+  <a href="/main">
     <div class="logo">
       <img
         width="17px"
