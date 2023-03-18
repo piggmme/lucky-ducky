@@ -17,6 +17,7 @@
     { title: '동전 던지기', url: '/coin', thumbnail: 'thumbnail_coin.svg' },
     { title: '오리 사다리', url: '/ladder', thumbnail: 'thumbnail_ladder.svg' },
     { title: '오리 뽑기', url: '/raffle', thumbnail: 'thumbnail_raffle.svg' },
+    { title: '오리 돌림판', url: '/wheel', thumbnail: 'thumbnail_raffle.svg' },
     { title: 'comming soon', url: '/raffle', thumbnail: 'thumbnail_raffle.svg' }
   ];
 </script>
