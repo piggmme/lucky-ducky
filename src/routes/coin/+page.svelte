@@ -1,12 +1,12 @@
 <script lang="ts">
   import GameName from '@/components/common/GameName.svelte';
+  import Coin from '@/components/coin/Coin.svelte';
   import MobileLayout from '@/Layout/MobileLayout.svelte';
-  import Lotto from '@/components/lotto/Lotto.svelte';
 </script>
 
 <MobileLayout>
-  <GameName>로또</GameName>
-  <Lotto />
+  <GameName>동전 던지기</GameName>
+  <Coin />
 </MobileLayout>
 
 <style lang="scss">

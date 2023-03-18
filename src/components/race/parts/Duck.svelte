@@ -1,88 +1,88 @@
 <script lang="ts">
-  // import { getRandomArbitrary } from 'src/utils/random';
-  const getRandomArbitrary = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
-  };
+  import { getRandomArbitrary, getRandomNumber } from '@/utils/random';
   // sprite image animation
   // https://svelte.dev/repl/2594c50ed8f94798898e11416951babc?version=3.44.2
 
-  export let speed: number = 80;
-  export let size = 100;
   export let isStart: boolean = false;
   export let isReset: boolean = false;
-  export let initReset = () => {};
-  export let style: string = '';
-  export let raceWidth = 1000;
-  export let setDuckInfo = () => {};
+  export let totalDistance = 2050;
+  export let setDuckRanking = () => {};
 
+  /** 경주 진행 관리 */
   let isRunning = false;
-  let raceX = 0;
-
-  let x = 0;
-  let y = 0;
-  const rows = 4;
-  const cols = 3;
-  const src = '/imgs/race_sprite.png';
-  let timer: NodeJS.Timer;
+  export let distanceX = 0;
 
   $: if (isReset) {
-    raceX = 0;
+    distanceX = 0;
+    isStart = false;
+    isRunning = false;
   }
 
   $: if (isStart) {
-    if (timer) clearInterval(timer);
-    if (raceX < raceWidth) raceX += getRandomArbitrary(50, 100);
+    console.log('transition');
 
-    timer = setInterval(() => {
-      if (x === 2 && y === 2) {
-        x = 0;
-        y = 0;
-        return;
-      }
-      if ((x + 1) % 4 === 0) {
-        x = 0;
-        y += 1;
-        return;
-      }
-      x += 1;
-    }, speed);
+    if (distanceX < totalDistance) distanceX += getRandomArbitrary(50, 100);
 
     isRunning = true;
     isStart = false;
-    initReset();
+    isReset = false;
   }
 
-  $: if (!isRunning) {
-    if (timer) clearInterval(timer);
-  }
+  $: isRaceEnd = distanceX >= totalDistance;
 </script>
 
 <div
-  aria-hidden="true"
   style={`
-      width: ${size}px; 
-      height: ${size}px; 
-      background-size: calc(100% * ${rows}) calc(100% * ${cols});
-      background-position: ${x * size * -1}px ${y * size * -1}px;
-      overflow: hidden;
-      background-image: url(${src});
-    
-      ${isReset ? '' : `transition: transform ease-in-out ${getRandomArbitrary(0.8, 1.5)}s`};
-      transform: translateX(${raceX < raceWidth ? raceX : raceWidth}px);
-    
-      ${style}
-    `}
+  ${
+    isReset
+      ? ''
+      : `transition: transform ease-in-out ${getRandomArbitrary(0.5, 1)}s`
+  };
+  transform: translateX(${!isRaceEnd ? distanceX : totalDistance}px);
+
+`}
   on:transitionend={() => {
     if (!isRunning) return;
 
     /** 결승선 도달 */
-    if (raceX >= raceWidth) {
+    if (isRaceEnd) {
       isRunning = false;
-      setDuckInfo();
+      setDuckRanking();
       return;
     }
 
-    raceX += getRandomArbitrary(50, 100);
-    if (raceX > raceWidth) raceX = raceWidth;
+    distanceX += getRandomArbitrary(100, 300);
+    if (isRaceEnd) distanceX = totalDistance;
   }}
-/>
+>
+  <img
+    class="ducky"
+    class:isRunning
+    src={getRandomNumber(0, 1) === 0
+      ? '/imgs/race/ducky.svg'
+      : '/imgs/race/ducky-sunglass.svg'}
+    alt="덕희"
+    aria-hidden="true"
+  />
+</div>
+
+<style lang="scss">
+  @keyframes running {
+    0% {
+      transform: rotate(0deg);
+    }
+    40% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(-10deg);
+    }
+    100% {
+      transform: rotate(00deg);
+    }
+  }
+
+  .isRunning {
+    animation: running 0.5s reverse infinite;
+  }
+</style>
