@@ -1,14 +1,14 @@
 <script>
 </script>
 
-<div class="container">
+<header class="header">
   <h1>
     <slot />
   </h1>
-</div>
+</header>
 
 <style lang="scss">
-  .container {
+  .header {
     width: 100%;
     max-width: 600vw;
     background-color: #cfcfcf;
