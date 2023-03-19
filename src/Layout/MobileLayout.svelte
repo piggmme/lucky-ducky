@@ -3,6 +3,7 @@
 
   export let isNav = true;
   export let isFooter = false;
+  // TODO: isNav -> hasNav, isFooter -> hasFooter 변수명 변경
 </script>
 
 <div class="container">
